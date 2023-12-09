@@ -1,6 +1,7 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/vue/24/solid";
+import { ref } from "vue";
 
 defineProps({
     canLogin: {
@@ -18,6 +19,29 @@ defineProps({
         required: true,
     },
 });
+
+const data = ref({
+    nama: "",
+    tempat: "",
+    tgl: "",
+    bulan: "",
+    tahun: "",
+    agama: "",
+    alamat: "",
+    hobi: [],
+    jenis_kelamin: "",
+    no_telp: "",
+});
+
+const show = ref(false);
+
+const submit = (e) => {
+    e.preventDefault();
+    show.value = true;
+};
+const reset = () => {
+    data.value = {};
+};
 </script>
 
 <template>
@@ -86,8 +110,7 @@ defineProps({
                                 <input
                                     type="text"
                                     name="nama_lengkap"
-                                    id="nama_lengkap"
-                                    autocomplete="given-name"
+                                    v-model="data.nama"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
 
@@ -102,37 +125,38 @@ defineProps({
                                         type="text"
                                         name="tempat"
                                         id="tempat"
+                                        v-model="data.tempat"
                                         class="block w-10/12 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                     <input
                                         type="text"
                                         name="tgl"
-                                        id="tgl"
+                                        v-model="data.tgl"
                                         class="block w-2/12 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                     <input
                                         type="text"
                                         name="bulan"
-                                        id="bulan"
+                                        v-model="data.bulan"
                                         class="block w-2/12 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                     <input
                                         type="text"
                                         name="tahun"
-                                        id="tahun"
+                                        v-model="data.tahun"
                                         class="block w-2/12 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
 
                                 <label
-                                    for="about"
+                                    for="alamat"
                                     class="block text-sm font-medium leading-6 text-gray-900"
                                     >Alamat</label
                                 >
                                 <div class="mt-2">
                                     <textarea
-                                        id="about"
-                                        name="about"
+                                        v-model="data.alamat"
+                                        name="alamat"
                                         rows="3"
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
@@ -145,6 +169,7 @@ defineProps({
                                 <input
                                     type="text"
                                     name="no_telp"
+                                    v-model="data.no_telp"
                                     id="no_telp"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -156,26 +181,26 @@ defineProps({
                                 <div class="mt-6 space-y-6">
                                     <div class="flex items-center gap-x-3">
                                         <input
-                                            id="push-everything"
-                                            name="push-notifications"
+                                            name="jenis_kelamin"
                                             type="radio"
+                                            value="Laki - laki"
+                                            v-model="data.jenis_kelamin"
                                             class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         />
                                         <label
-                                            for="push-everything"
                                             class="block text-sm font-medium leading-6 text-gray-900"
                                             >Laki - laki</label
                                         >
                                     </div>
                                     <div class="flex items-center gap-x-3">
                                         <input
-                                            id="push-email"
-                                            name="push-notifications"
+                                            name="jenis_kelamin"
+                                            v-model="data.jenis_kelamin"
                                             type="radio"
+                                            value="Perempuan"
                                             class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                         />
                                         <label
-                                            for="push-email"
                                             class="block text-sm font-medium leading-6 text-gray-900"
                                             >Perempuan</label
                                         >
@@ -183,24 +208,23 @@ defineProps({
                                 </div>
 
                                 <label
-                                    for="country"
+                                    for="agama"
                                     class="block text-sm font-medium leading-6 text-gray-900"
                                     >Agama</label
                                 >
                                 <div class="mt-2">
                                     <select
+                                        v-model="data.agama"
                                         name="agama"
-                                        autocomplete="agama-name"
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                     >
-                                        <option>Islam</option>
-                                        <option>Kristen</option>
-                                        <option>Hindu</option>
-                                        <option>Budha</option>
+                                        <option value="Islam">Islam</option>
+                                        <option value="Kristen">Kristen</option>
+                                        <option value="Hindu">Hindu</option>
+                                        <option value="Budha">Budha</option>
                                     </select>
                                 </div>
 
-                                <!--  -->
                                 <label
                                     for="country"
                                     class="block text-sm font-medium leading-6 text-gray-900"
@@ -211,51 +235,55 @@ defineProps({
                                     <div class="relative flex gap-x-3">
                                         <div class="flex h-6 items-center">
                                             <input
-                                                id="comments"
-                                                name="comments"
+                                                v-model="data.hobi"
+                                                id="game"
+                                                value="main game"
+                                                name="game"
                                                 type="checkbox"
                                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                             />
                                         </div>
                                         <div class="text-sm leading-6">
                                             <label
-                                                for="comments"
+                                                for="game"
                                                 class="font-medium text-gray-900"
-                                                >Comments</label
+                                                >Main game</label
                                             >
                                         </div>
                                     </div>
                                     <div class="relative flex gap-x-3">
                                         <div class="flex h-6 items-center">
                                             <input
-                                                id="candidates"
-                                                name="candidates"
+                                                v-model="data.hobi"
+                                                name="buku"
                                                 type="checkbox"
+                                                value="baca buku"
                                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                             />
                                         </div>
                                         <div class="text-sm leading-6">
                                             <label
-                                                for="candidates"
+                                                for="buku"
                                                 class="font-medium text-gray-900"
-                                                >Candidates</label
+                                                >Baca buku</label
                                             >
                                         </div>
                                     </div>
                                     <div class="relative flex gap-x-3">
                                         <div class="flex h-6 items-center">
                                             <input
-                                                id="offers"
-                                                name="offers"
+                                                v-model="data.hobi"
+                                                name="olahraga"
                                                 type="checkbox"
+                                                value="olahraga"
                                                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                             />
                                         </div>
                                         <div class="text-sm leading-6">
                                             <label
-                                                for="offers"
+                                                for="olahraga"
                                                 class="font-medium text-gray-900"
-                                                >Offers</label
+                                                >Olahraga</label
                                             >
                                         </div>
                                     </div>
@@ -266,19 +294,37 @@ defineProps({
 
                     <div class="mt-6 flex items-center justify-end gap-x-6">
                         <button
+                            @click="reset"
                             type="button"
                             class="text-sm font-semibold leading-6 text-gray-900"
                         >
-                            Cancel
+                            Reset
                         </button>
                         <button
-                            type="submit"
+                            @click="submit"
+                            type="button"
                             class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                            Save
+                            Tampilkan
                         </button>
                     </div>
                 </form>
+                <div
+                    class="mt-10 flex flex-col gap-3"
+                    :class="{ block: show, hidden: !show }"
+                >
+                    <label>Nama Lengkap :{{ data.nama }}</label>
+                    <label
+                        >Tempat tgl lahir :{{ data.tempat }},{{ data.tgl }}/{{
+                            data.bulan
+                        }}/{{ data.tahun }}</label
+                    >
+                    <label>alamat : {{ data.alamat }}</label>
+                    <label>jenis kelamin : {{ data.jenis_kelamin }}</label>
+                    <label>no telp : {{ data.no_telp }}</label>
+                    <label>agama : {{ data.agama }}</label>
+                    <label>Hobi{{ data.hobi }}</label>
+                </div>
             </div>
 
             <div
